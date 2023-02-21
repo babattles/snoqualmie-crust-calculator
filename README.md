@@ -5,9 +5,6 @@
 ## Intro
 > **When we see temperature inversions with a layer of low relative humidity above them, it often indicates a band of low-elevation clouds with clearer skies above them.**
 
-
-![Classic example of an inversion on Mt. St. Helen's](assets/helens_inversion.jpg)
-
 This repo aims to provide utilities that aid in ingesting weather station data from the snoqualmie pass region of Washington state in order to produce some kind of meaningful insight into skiing conditions. 
 
 The main focus of this code at the time of writing is to correctly recognize temperature inversions and cloud breaks (based on relative humidity) in order to predict the presence of sun crusts at provided elevation bands.
@@ -41,3 +38,5 @@ I don't think the model used for determining sun crusts or cloud-breaks applies 
 ### Note:
 
 > This code will likely upset you. You will probably not agree with all the assumptions I made in the calculations, because I don't even agree with them myself. These models should be taken with a comically large grain of salt.
+
+![Classic example of an inversion on Mt. St. Helen's](assets/helens_inversion.jpg)
