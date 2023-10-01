@@ -14,7 +14,7 @@ func TestFindSunCrust(t *testing.T) {
 	tests := []struct {
 		name string
 		data []models.WeatherStationData
-		expected []crust.CrustConfidence
+		expected []crust.CrustType
 	}{
         {
 			name: "no inversions - no clouds - all above freezing - all maybes",
@@ -35,7 +35,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 0,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustMaybe, crust.CrustMaybe, crust.CrustMaybe},
+			expected: []crust.CrustType{crust.CrustSunMaybe, crust.CrustSunMaybe, crust.CrustSunMaybe},
 		},
 		{
 			name: "no inversions - all clouds - all above freezing - all nos",
@@ -56,7 +56,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 100,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustNo, crust.CrustNo, crust.CrustNo},
+			expected: []crust.CrustType{crust.CrustNone, crust.CrustNone, crust.CrustNone},
 		},
 		{
 			name: "no inversions - no clouds - all below freezing - all nos",
@@ -77,7 +77,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 0,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustNo, crust.CrustNo, crust.CrustNo},
+			expected: []crust.CrustType{crust.CrustNone, crust.CrustNone, crust.CrustNone},
 		},
 		{
 			name: "all inversions & all clouds - no crusts",
@@ -98,7 +98,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 100,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustNo, crust.CrustNo, crust.CrustNo},
+			expected: []crust.CrustType{crust.CrustNone, crust.CrustNone, crust.CrustNone},
 		},
 		{
 			name: "all inversions - no clouds - all below freezing - no crusts",
@@ -119,7 +119,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 0,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustNo, crust.CrustNo, crust.CrustNo},
+			expected: []crust.CrustType{crust.CrustNone, crust.CrustNone, crust.CrustNone},
 		},
 		{
 			name: "all inversions - no clouds - one below freezing - two crusts",
@@ -140,7 +140,7 @@ func TestFindSunCrust(t *testing.T) {
 					RelativeHumidityPercent: 0,
 				},
 			},
-			expected: []crust.CrustConfidence{crust.CrustNo, crust.CrustYes, crust.CrustYes},
+			expected: []crust.CrustType{crust.CrustNone, crust.CrustSun, crust.CrustSun},
 		},
     }
 

@@ -6,48 +6,54 @@ import (
 	"github.com/babattles/snoqualmie-crust-calculator/sun"
 )
 
-type CrustConfidence string
-
-const (
-	CrustYes CrustConfidence = "yes"
-	CrustNo CrustConfidence = "no"
-	CrustMaybe CrustConfidence = "maybe"
-)
-
 // returns an array of bools where the index is true when there likely
 // exists a sun crust based on temperature inversions & sun effect
-func FindSunCrust(data []models.WeatherStationData) []CrustConfidence {
-	res := make([]CrustConfidence, len(data))
+func FindSunCrust(data []models.WeatherStationData) []CrustType {
+	res := make([]CrustType, len(data))
 	inversionsBelow := inversion.FindInversionsBelow(data)
 	sunExposures := sun.FindSunEffect(data)
 	for i, layer := range(data) {
 		gotSun := sunExposures[i]
 		inversionBelow := inversionsBelow[i]
 
-		// if there was a temperature inversion detected below
-		// AND this layer might have recieved sun exposure
-		// AND the temperature is above freezing
-		// there is very likely a sun crust
-		// NOTE: this assumption is likely to upset many people
+		// We have high confidence of a sun crust at the current layer if:
+		// * There was a temperature inversion with the layer below
+		// * The layer likely recieved sun exposure
+		// * The current temperature is above freezing
 		if inversionBelow && 
 		gotSun && 
 		!layer.BelowFreezing() {
-			res[i] = CrustYes
+			res[i] = CrustSun
 			continue
 		}
 
-		// because our sun exposure estimate isn't perfect, we provide a maybe if we can't 
-		// guess more precisely because we detected an inversion
-		// so if the layer might have received sun exposure 
-		// AND is above freezing, it might have a crust
-		// NOTE: this check assumes mid-winter conditions that will return this layer to freezing at some point
-		// YMMV
+		// Because our sun exposure estimates can't take into account cloud coverage outside our station data,
+		// we don't trust a lack of humidity as a failsafe means of determining cloudbreak
+		//
+		// Here we return a maybe
 		if gotSun && !layer.BelowFreezing() {
-			res[i] = CrustMaybe
+			res[i] = CrustSunMaybe
 			continue
 		}
 
-		res[i] = CrustNo
+		res[i] = CrustNone
+	}
+	return res
+}
+
+// returns an array of confidences where the index is true when it is likely
+// a melt crust will form based on current temperature
+//
+// NOTE: assumes the temperature will later return to below freezing at night
+func FindMeltCrust(data []models.WeatherStationData) []CrustType {
+	res := make([]CrustType, len(data))
+	for i, layer := range(data) {
+		if !layer.BelowFreezing() {
+			res[i] = CrustMelt
+			continue
+		}
+
+		res[i] = CrustNone
 	}
 	return res
 }
