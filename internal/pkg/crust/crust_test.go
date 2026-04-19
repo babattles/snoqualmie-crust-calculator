@@ -3,8 +3,8 @@ package crust_test
 import (
 	"testing"
 
-	"github.com/babattles/snoqualmie-crust-calculator/crust"
-	"github.com/babattles/snoqualmie-crust-calculator/models"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/crust"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,12 +13,12 @@ func TestFindSunCrust(t *testing.T) {
 
 	tests := []struct {
 		name string
-		data []models.WeatherStationData
+		data []entity.WeatherStationData
 		expected []crust.CrustType
 	}{
         {
 			name: "no inversions - no clouds - all above freezing - all maybes",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 36,
@@ -39,7 +39,7 @@ func TestFindSunCrust(t *testing.T) {
 		},
 		{
 			name: "no inversions - all clouds - all above freezing - all nos",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 36,
@@ -60,7 +60,7 @@ func TestFindSunCrust(t *testing.T) {
 		},
 		{
 			name: "no inversions - no clouds - all below freezing - all nos",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 28,
@@ -81,7 +81,7 @@ func TestFindSunCrust(t *testing.T) {
 		},
 		{
 			name: "all inversions & all clouds - no crusts",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 30,
@@ -102,7 +102,7 @@ func TestFindSunCrust(t *testing.T) {
 		},
 		{
 			name: "all inversions - no clouds - all below freezing - no crusts",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 12,
@@ -123,7 +123,7 @@ func TestFindSunCrust(t *testing.T) {
 		},
 		{
 			name: "all inversions - no clouds - one below freezing - two crusts",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 30,

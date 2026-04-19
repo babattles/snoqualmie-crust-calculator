@@ -3,7 +3,7 @@ package inversion
 import (
 	"errors"
 
-	"github.com/babattles/snoqualmie-crust-calculator/models"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
 )
 
 var (
@@ -18,9 +18,9 @@ type InversionData struct {
 
 // for each elevation band, return if there was an inversion between it and the above elevation band
 // (the uppermost elevation band will always be false)
-func FindInversionsAbove(data []models.WeatherStationData) []bool {
+func FindInversionsAbove(data []entity.WeatherStationData) []bool {
 	// sort first for peace of mind
-	models.SortByElevation(data)
+	entity.SortByElevation(data)
 
 	res := make([]bool, len(data))
 	for i, layer := range(data) {
@@ -38,9 +38,9 @@ func FindInversionsAbove(data []models.WeatherStationData) []bool {
 
 // for each elevation band, return if there was an inversion between it and the elevation band below
 // (the lowest elevation band will always be false)
-func FindInversionsBelow(data []models.WeatherStationData) []bool {
+func FindInversionsBelow(data []entity.WeatherStationData) []bool {
 	// sort first for peace of mind
-	models.SortByElevation(data)
+	entity.SortByElevation(data)
 
 	res := make([]bool, len(data))
 	for i := len(data)-1; i >= 0; i-- {
@@ -58,7 +58,7 @@ func FindInversionsBelow(data []models.WeatherStationData) []bool {
 
 // calculates if there was a temperature inversion between two elevation bands
 func temperatureInversionExists(
-	lowerBand models.WeatherStationData, higherBand models.WeatherStationData,
+	lowerBand entity.WeatherStationData, higherBand entity.WeatherStationData,
 ) bool {
 	return higherBand.TemperatureF > lowerBand.TemperatureF
 }

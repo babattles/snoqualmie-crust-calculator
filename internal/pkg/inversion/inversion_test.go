@@ -3,8 +3,8 @@ package inversion_test
 import (
 	"testing"
 
-	"github.com/babattles/snoqualmie-crust-calculator/inversion"
-	"github.com/babattles/snoqualmie-crust-calculator/models"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/inversion"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,12 +13,12 @@ func TestFindInversionsAbove(t *testing.T) {
 
 	tests := []struct {
 		name string
-		data []models.WeatherStationData
+		data []entity.WeatherStationData
 		expected []bool
 	}{
         {
 			name: "no inversions",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 32,
@@ -36,7 +36,7 @@ func TestFindInversionsAbove(t *testing.T) {
 		},
 		{
 			name: "inversion between all elevations",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 28,
@@ -54,7 +54,7 @@ func TestFindInversionsAbove(t *testing.T) {
 		},
 		{
 			name: "inversion between lowest and middle elevations",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 28,
@@ -86,12 +86,12 @@ func TestFindInversionsBelow(t *testing.T) {
 
 	tests := []struct {
 		name string
-		data []models.WeatherStationData
+		data []entity.WeatherStationData
 		expected []bool
 	}{
         {
 			name: "no inversions",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 32,
@@ -109,7 +109,7 @@ func TestFindInversionsBelow(t *testing.T) {
 		},
 		{
 			name: "inversion between all elevations",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 28,
@@ -127,7 +127,7 @@ func TestFindInversionsBelow(t *testing.T) {
 		},
 		{
 			name: "inversion between lowest and middle elevations",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					TemperatureF: 28,

@@ -1,4 +1,4 @@
-package models
+package entity
 
 const (
 	CloudBreakHumidityThreshold int = 70

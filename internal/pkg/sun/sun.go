@@ -1,10 +1,10 @@
 package sun
 
-import "github.com/babattles/snoqualmie-crust-calculator/models"
+import "github.com/babattles/snoqualmie-crust-calculator/internal/entity"
 
-func FindSunEffect(data []models.WeatherStationData) []bool {
+func FindSunEffect(data []entity.WeatherStationData) []bool {
 	// sort first for peace of mind
-	models.SortByElevation(data)
+	entity.SortByElevation(data)
 
 	res := make([]bool, len(data))
 	for i := len(data)-1; i >= 0; i-- {

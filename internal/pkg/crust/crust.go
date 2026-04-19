@@ -1,14 +1,14 @@
 package crust
 
 import (
-	"github.com/babattles/snoqualmie-crust-calculator/inversion"
-	"github.com/babattles/snoqualmie-crust-calculator/models"
-	"github.com/babattles/snoqualmie-crust-calculator/sun"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/inversion"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/sun"
 )
 
 // returns an array of bools where the index is true when there likely
 // exists a sun crust based on temperature inversions & sun effect
-func FindSunCrust(data []models.WeatherStationData) []CrustType {
+func FindSunCrust(data []entity.WeatherStationData) []CrustType {
 	res := make([]CrustType, len(data))
 	inversionsBelow := inversion.FindInversionsBelow(data)
 	sunExposures := sun.FindSunEffect(data)
@@ -20,8 +20,8 @@ func FindSunCrust(data []models.WeatherStationData) []CrustType {
 		// * There was a temperature inversion with the layer below
 		// * The layer likely recieved sun exposure
 		// * The current temperature is above freezing
-		if inversionBelow && 
-		gotSun && 
+		if inversionBelow &&
+		gotSun &&
 		!layer.BelowFreezing() {
 			res[i] = CrustSun
 			continue
@@ -45,7 +45,7 @@ func FindSunCrust(data []models.WeatherStationData) []CrustType {
 // a melt crust will form based on current temperature
 //
 // NOTE: assumes the temperature will later return to below freezing at night
-func FindMeltCrust(data []models.WeatherStationData) []CrustType {
+func FindMeltCrust(data []entity.WeatherStationData) []CrustType {
 	res := make([]CrustType, len(data))
 	for i, layer := range(data) {
 		if !layer.BelowFreezing() {

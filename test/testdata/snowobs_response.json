@@ -1,0 +1,88 @@
+{
+  "UNITS": {
+    "air_temp": "fahrenheit",
+    "battery_voltage": "volt",
+    "intermittent_snow": "inches",
+    "precip_accum_one_hour": "inches",
+    "relative_humidity": "%",
+    "snow_depth": "inches",
+    "snow_depth_24h": "inches",
+    "solar_radiation": "W/m**2",
+    "wind_direction": "degrees",
+    "wind_gust": "mph",
+    "wind_speed": "mph",
+    "wind_speed_min": "mph"
+  },
+  "VARIABLES": [
+    {"variable": "air_temp", "long_name": "Air Temperature"},
+    {"variable": "relative_humidity", "long_name": "Relative Humidity"}
+  ],
+  "STATION": [
+    {
+      "id": "d13223c3-0692-4d23-8677-e093c8897efc",
+      "stid": "1",
+      "name": "Alpental Base",
+      "latitude": 47.444066667,
+      "longitude": -121.42485,
+      "elevation": 3100.0,
+      "timezone": "America/Vancouver",
+      "source": "nwac",
+      "meta": {
+        "state": "WA",
+        "datalogger_num_id": 121,
+        "datalogger_char_id": "ALL",
+        "weather_station_partner": "Alpental Ski Area"
+      },
+      "station_note": [],
+      "observations": {
+        "date_time": ["2026-04-19T16:00:00Z", "2026-04-19T17:00:00Z"],
+        "air_temp": [41, 43],
+        "relative_humidity": [82, 74]
+      }
+    },
+    {
+      "id": "d815ed9a-4663-4788-93b2-79998260b509",
+      "stid": "2",
+      "name": "Alpental Mid-Mountain",
+      "latitude": 47.4347404,
+      "longitude": -121.433565,
+      "elevation": 4350.0,
+      "timezone": "America/Vancouver",
+      "source": "nwac",
+      "meta": {
+        "state": "WA",
+        "datalogger_num_id": 22,
+        "datalogger_char_id": "ALM",
+        "weather_station_partner": "Alpental Ski Area"
+      },
+      "station_note": [],
+      "observations": {
+        "date_time": ["2026-04-19T16:00:00Z", "2026-04-19T17:00:00Z"],
+        "air_temp": [43, 44],
+        "relative_humidity": [25, 25]
+      }
+    },
+    {
+      "id": "0292aeaf-9907-4251-beb6-326cb2853916",
+      "stid": "3",
+      "name": "Alpental Summit",
+      "latitude": 47.438816667,
+      "longitude": -121.442616667,
+      "elevation": 5470.0,
+      "timezone": "America/Vancouver",
+      "source": "nwac",
+      "meta": {
+        "state": "WA",
+        "datalogger_num_id": 23,
+        "datalogger_char_id": "ALU",
+        "weather_station_partner": "Alpental Ski Area"
+      },
+      "station_note": [],
+      "observations": {
+        "date_time": ["2026-04-19T16:00:00Z", "2026-04-19T17:00:00Z"],
+        "air_temp": [41, 41],
+        "relative_humidity": [50, 50]
+      }
+    }
+  ]
+}
