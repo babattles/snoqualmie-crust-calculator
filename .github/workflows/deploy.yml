@@ -58,6 +58,17 @@ jobs:
       contents: read
       packages: read
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy compose files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "docker-compose.yml,Caddyfile"
+          target: "/tmp/"
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1
         env:
@@ -76,9 +87,17 @@ jobs:
           envs: SNOWOBS_BASE_URL,SNOWOBS_TOKEN,SNOWOBS_SOURCE,API_KEY,DOMAIN,IMAGE,GHCR_USER,GHCR_TOKEN
           script: |
             set -euo pipefail
+            if ! command -v docker >/dev/null 2>&1; then
+              curl -fsSL https://get.docker.com | sudo sh
+              sudo systemctl enable --now docker
+            fi
+            sudo mkdir -p ${{ secrets.EC2_APP_DIR }}
+            sudo rm -rf ${{ secrets.EC2_APP_DIR }}/docker-compose.yml ${{ secrets.EC2_APP_DIR }}/Caddyfile
+            sudo mv /tmp/docker-compose.yml ${{ secrets.EC2_APP_DIR }}/docker-compose.yml
+            sudo mv /tmp/Caddyfile ${{ secrets.EC2_APP_DIR }}/Caddyfile
             cd ${{ secrets.EC2_APP_DIR }}
             umask 077
-            cat > .env <<EOF
+            sudo tee .env > /dev/null <<EOF
             SNOWOBS_BASE_URL=$SNOWOBS_BASE_URL
             SNOWOBS_TOKEN=$SNOWOBS_TOKEN
             SNOWOBS_SOURCE=$SNOWOBS_SOURCE
@@ -86,8 +105,9 @@ jobs:
             DOMAIN=$DOMAIN
             IMAGE=$IMAGE
             EOF
-            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
-            docker compose pull
-            docker compose up -d
-            docker logout ghcr.io
-            docker image prune -f
+            sudo chmod 600 .env
+            echo "$GHCR_TOKEN" | sudo docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            sudo docker compose pull
+            sudo docker compose up -d
+            sudo docker logout ghcr.io
+            sudo docker image prune -f

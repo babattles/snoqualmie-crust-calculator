@@ -3,6 +3,7 @@ services:
     image: ${IMAGE:-snoqualmie-crust-calculator:local}
     restart: unless-stopped
     environment:
+      SNOWOBS_BASE_URL: ${SNOWOBS_BASE_URL}
       SNOWOBS_TOKEN: ${SNOWOBS_TOKEN}
       SNOWOBS_SOURCE: ${SNOWOBS_SOURCE}
       API_KEY: ${API_KEY}
