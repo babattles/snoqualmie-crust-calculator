@@ -69,8 +69,8 @@ func TestIntegration_Endpoints(t *testing.T) {
 	ts := httptest.NewServer(e)
 	defer ts.Close()
 
-	t.Run("GET /health returns 200 ok", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/health", testAPIKey)
+	t.Run("GET /api/health returns 200 ok", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/health", testAPIKey)
 		defer resp.Body.Close()
 
 		body, err := io.ReadAll(resp.Body)
@@ -79,8 +79,8 @@ func TestIntegration_Endpoints(t *testing.T) {
 		assert.Equal(t, "ok", string(body))
 	})
 
-	t.Run("GET /crusts?mountain=Alpental returns sorted crust layers", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/crusts?mountain=Alpental", testAPIKey)
+	t.Run("GET /api/crusts?mountain=Alpental returns sorted crust layers", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/crusts?mountain=Alpental", testAPIKey)
 		defer resp.Body.Close()
 		require.Equal(t, http.StatusOK, resp.StatusCode)
 
@@ -103,32 +103,32 @@ func TestIntegration_Endpoints(t *testing.T) {
 		assert.Equal(t, crust.CrustMelt, result.Layers[2].MeltCrust)
 	})
 
-	t.Run("GET /crusts without mountain returns 400", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/crusts", testAPIKey)
+	t.Run("GET /api/crusts without mountain returns 400", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/crusts", testAPIKey)
 		defer resp.Body.Close()
 		assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 	})
 
-	t.Run("GET /crusts with unknown mountain returns 400", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/crusts?mountain=nonexistent", testAPIKey)
+	t.Run("GET /api/crusts with unknown mountain returns 400", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/crusts?mountain=nonexistent", testAPIKey)
 		defer resp.Body.Close()
 		assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 	})
 
-	t.Run("GET /crusts without API key returns 401", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/crusts?mountain=Alpental", "")
+	t.Run("GET /api/crusts without API key returns 401", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/crusts?mountain=Alpental", "")
 		defer resp.Body.Close()
 		assert.Equal(t, http.StatusUnauthorized, resp.StatusCode)
 	})
 
-	t.Run("GET /crusts with wrong API key returns 401", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/crusts?mountain=Alpental", "wrong-key")
+	t.Run("GET /api/crusts with wrong API key returns 401", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/crusts?mountain=Alpental", "wrong-key")
 		defer resp.Body.Close()
 		assert.Equal(t, http.StatusUnauthorized, resp.StatusCode)
 	})
 
-	t.Run("GET /health without API key returns 401", func(t *testing.T) {
-		resp := doGet(t, ts.URL+"/health", "")
+	t.Run("GET /api/health without API key returns 401", func(t *testing.T) {
+		resp := doGet(t, ts.URL+"/api/health", "")
 		defer resp.Body.Close()
 		assert.Equal(t, http.StatusUnauthorized, resp.StatusCode)
 	})

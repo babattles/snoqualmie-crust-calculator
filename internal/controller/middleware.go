@@ -4,7 +4,6 @@ import (
 	"crypto/subtle"
 	"net/http"
 
-	"github.com/babattles/snoqualmie-crust-calculator/config"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,8 +23,4 @@ func APIKeyMiddleware(apiKey string) echo.MiddlewareFunc {
 			return next(c)
 		}
 	}
-}
-
-func RegisterMiddleware(e *echo.Echo, cfg config.Config) {
-	e.Use(APIKeyMiddleware(cfg.APIKey))
 }

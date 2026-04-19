@@ -1,4 +1,10 @@
-{$DOMAIN} {
+crust.ski {
 	encode gzip
+	reverse_proxy app:8080
+}
+
+api.crust.ski {
+	encode gzip
+	rewrite * /api{uri}
 	reverse_proxy app:8080
 }

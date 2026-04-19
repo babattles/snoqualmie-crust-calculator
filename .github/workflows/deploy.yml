@@ -76,7 +76,6 @@ jobs:
           SNOWOBS_TOKEN: ${{ secrets.SNOWOBS_TOKEN }}
           SNOWOBS_SOURCE: ${{ secrets.SNOWOBS_SOURCE }}
           API_KEY: ${{ secrets.API_KEY }}
-          DOMAIN: ${{ secrets.DOMAIN }}
           IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           GHCR_USER: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -84,7 +83,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: SNOWOBS_BASE_URL,SNOWOBS_TOKEN,SNOWOBS_SOURCE,API_KEY,DOMAIN,IMAGE,GHCR_USER,GHCR_TOKEN
+          envs: SNOWOBS_BASE_URL,SNOWOBS_TOKEN,SNOWOBS_SOURCE,API_KEY,IMAGE,GHCR_USER,GHCR_TOKEN
           script: |
             set -euo pipefail
             if ! command -v docker >/dev/null 2>&1; then
@@ -102,7 +101,6 @@ jobs:
             SNOWOBS_TOKEN=$SNOWOBS_TOKEN
             SNOWOBS_SOURCE=$SNOWOBS_SOURCE
             API_KEY=$API_KEY
-            DOMAIN=$DOMAIN
             IMAGE=$IMAGE
             EOF
             sudo chmod 600 .env
