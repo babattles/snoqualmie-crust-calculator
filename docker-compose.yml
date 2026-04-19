@@ -1,0 +1,33 @@
+services:
+  app:
+    image: ${IMAGE:-snoqualmie-crust-calculator:local}
+    restart: unless-stopped
+    environment:
+      SNOWOBS_TOKEN: ${SNOWOBS_TOKEN}
+      SNOWOBS_SOURCE: ${SNOWOBS_SOURCE}
+      API_KEY: ${API_KEY}
+    networks: [web]
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [app]
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:

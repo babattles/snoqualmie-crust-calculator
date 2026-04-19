@@ -1,6 +1,6 @@
 package crust
 
-import "github.com/babattles/snoqualmie-crust-calculator/models"
+import "github.com/babattles/snoqualmie-crust-calculator/internal/entity"
 
 type CrustType string
 
@@ -26,7 +26,7 @@ func (c CrustType) GetPriority() int {
 			return i
 		}
 	}
-	return models.MaxInt
+	return entity.MaxInt
 }
 
 func (c CrustType) Trumps(c2 CrustType) bool {

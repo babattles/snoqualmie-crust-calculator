@@ -3,8 +3,8 @@ package sun_test
 import (
 	"testing"
 
-	"github.com/babattles/snoqualmie-crust-calculator/models"
-	"github.com/babattles/snoqualmie-crust-calculator/sun"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
+	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/sun"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,12 +13,12 @@ func TestFindSunEffect(t *testing.T) {
 
 	tests := []struct {
 		name string
-		data []models.WeatherStationData
+		data []entity.WeatherStationData
 		expected []bool
 	}{
         {
 			name: "all sun",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					RelativeHumidityPercent: 0,
@@ -36,7 +36,7 @@ func TestFindSunEffect(t *testing.T) {
 		},
 		{
 			name: "no sun",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					RelativeHumidityPercent: 100,
@@ -54,7 +54,7 @@ func TestFindSunEffect(t *testing.T) {
 		},
 		{
 			name: "uppermost sun",
-			data: []models.WeatherStationData{
+			data: []entity.WeatherStationData{
 				{
 					ElevationFt: 0,
 					RelativeHumidityPercent: 100,
