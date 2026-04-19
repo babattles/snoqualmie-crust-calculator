@@ -33,9 +33,9 @@ func NewServer() *echo.Echo {
 
 func NewSnowobsClient(cfg config.Config) *snowobs.Client {
 	return snowobs.New(snowobs.Config{
-		Token:  cfg.SnowobsToken,
-		Source: cfg.SnowobsSource,
-		BaseURL: cfg.SnowobsBaseURL,
+		BaseURL: cfg.Snowobs.BaseURL,
+		Token:   cfg.Snowobs.Token,
+		Source:  cfg.Snowobs.Source,
 	})
 }
 

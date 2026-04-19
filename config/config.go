@@ -1,19 +1,22 @@
 package config
 
-import "os"
+import "github.com/ilyakaznacheev/cleanenv"
 
-type Config struct {
-	SnowobsBaseURL string
-	SnowobsToken  string
-	SnowobsSource string
-	APIKey        string
+type SnowobsConfig struct {
+	BaseURL string `env:"SNOWOBS_BASE_URL" env-required:"true"`
+	Token   string `env:"SNOWOBS_TOKEN" env-required:"true"`
+	Source  string `env:"SNOWOBS_SOURCE" env-required:"true"`
 }
 
-func New() Config {
-	return Config{
-		SnowobsBaseURL: os.Getenv("SNOWOBS_BASE_URL"),
-		SnowobsToken:  os.Getenv("SNOWOBS_TOKEN"),
-		SnowobsSource: os.Getenv("SNOWOBS_SOURCE"),
-		APIKey:        os.Getenv("API_KEY"),
+type Config struct {
+	Snowobs SnowobsConfig
+	APIKey  string `env:"API_KEY" env-required:"true"`
+}
+
+func New() (Config, error) {
+	var cfg Config
+	if err := cleanenv.ReadEnv(&cfg); err != nil {
+		return Config{}, err
 	}
+	return cfg, nil
 }

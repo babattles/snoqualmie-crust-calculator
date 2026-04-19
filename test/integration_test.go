@@ -9,11 +9,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/babattles/snoqualmie-crust-calculator/config"
 	"github.com/babattles/snoqualmie-crust-calculator/internal/app"
 	"github.com/babattles/snoqualmie-crust-calculator/internal/entity"
 	"github.com/babattles/snoqualmie-crust-calculator/internal/pkg/crust"
-	"github.com/babattles/snoqualmie-crust-calculator/internal/repo/webapi/snowobs"
 	"github.com/babattles/snoqualmie-crust-calculator/internal/usecase"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
@@ -36,20 +34,14 @@ func newMockSnowobsServer(t *testing.T) *httptest.Server {
 
 func buildTestApp(t *testing.T, snowobsBaseURL string) *echo.Echo {
 	t.Helper()
+	t.Setenv("SNOWOBS_BASE_URL", snowobsBaseURL)
+	t.Setenv("SNOWOBS_TOKEN", "test-token")
+	t.Setenv("SNOWOBS_SOURCE", "nwac")
+	t.Setenv("API_KEY", testAPIKey)
 
 	var e *echo.Echo
 	fxApp := fx.New(
 		app.Providers,
-		fx.Decorate(func(_ config.Config) config.Config {
-			return config.Config{APIKey: testAPIKey}
-		}),
-		fx.Decorate(func(_ *snowobs.Client) *snowobs.Client {
-			return snowobs.New(snowobs.Config{
-				BaseURL: snowobsBaseURL,
-				Token:   "test-token",
-				Source:  "nwac",
-			})
-		}),
 		fx.Populate(&e),
 		fx.NopLogger,
 	)
