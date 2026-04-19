@@ -1,0 +1,43 @@
+{{define "index"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snoqualmie Crust Calculator</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+<h1>Snoqualmie Crust Calculator</h1>
+<p class="subtitle">Current crust estimate by elevation band</p>
+
+{{if .Error}}
+<div class="error">{{.Error}}</div>
+{{else}}
+<section class="mountain">
+<h2>{{.Mountain}}</h2>
+<p class="fetched">Fetched {{.FetchedAt}}</p>
+<table>
+<thead>
+<tr><th>Elevation</th><th>Sun crust</th><th>Melt crust</th></tr>
+</thead>
+<tbody>
+{{range .Layers}}
+<tr>
+<td>{{.ElevationFt}} ft</td>
+<td class="crust crust-{{.SunCrust}}">{{.SunCrustLabel}}</td>
+<td class="crust crust-{{.MeltCrust}}">{{.MeltCrustLabel}}</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+</section>
+{{end}}
+
+<footer>
+<p>Take all of this with a comically large grain of salt.</p>
+</footer>
+</main>
+</body>
+</html>
+{{end}}
