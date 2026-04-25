@@ -2,6 +2,8 @@
 
 ![Classic example of an inversion at Snoqualmie Pass](assets/snoqualmie_inversion.jpg)
 
+## Live at [crust.ski](https://crust.ski)
+
 ## Intro
 > **When we see temperature inversions with a layer of low relative humidity above them, it often indicates a band of low-elevation clouds with clearer skies above them.**
 
